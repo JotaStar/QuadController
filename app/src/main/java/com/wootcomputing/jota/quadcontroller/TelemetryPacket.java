@@ -24,8 +24,6 @@ public class TelemetryPacket
     {
         try
         {
-
-
             ByteBuffer bb = ByteBuffer.wrap(bytes);
             bb.order(ByteOrder.LITTLE_ENDIAN);
 
@@ -64,24 +62,25 @@ public class TelemetryPacket
         this.header = 36;
         this.commandId = commandId;
         this.data = data;
+        this.dataLength = (byte) data.length;
 
-        //Es BigEndian, en Arduino cambio los Bytes (2 = 3, 3 = 2)
-        byte[] dataFilled = new byte[PACKET_DATA_SIZE];
-        dataLength = (byte) data.length;
-        System.arraycopy(data, 0, dataFilled, 0, dataLength);
+//        //Es BigEndian, en Arduino cambio los Bytes (2 = 3, 3 = 2)
+//        byte[] dataFilled = new byte[PACKET_DATA_SIZE];
+//        dataLength = (byte) data.length;
+//        System.arraycopy(data, 0, dataFilled, 0, dataLength);
+//        this.checkSum = TelemetryPacket.calculateCheckSum(dataFilled);
 
-        this.checkSum = TelemetryPacket.calculateCheckSum(dataFilled);
+        this.checkSum = TelemetryPacket.calculateCheckSum(data);
         this.endFrame = 13;
     }
 
     public byte[] getBytes()
     {
-        byte[] packet = new byte[PACKET_SIZE];
 
-        dataLength = (byte) data.length;
+        byte[] packet = new byte[dataLength + 5];
 
-        byte[] dataFilled = new byte[PACKET_DATA_SIZE];
-        System.arraycopy(data, 0, dataFilled, 0, dataLength);
+//        byte[] dataFilled = new byte[PACKET_DATA_SIZE];
+//        System.arraycopy(data, 0, dataFilled, 0, dataLength);
 
         //Copy Header
         System.arraycopy(new byte[]{header}, 0, packet, 0, 1);
@@ -93,13 +92,14 @@ public class TelemetryPacket
         System.arraycopy(new byte[]{dataLength}, 0, packet, 2, 1);
 
         //Copy Data
-        System.arraycopy(dataFilled, 0, packet, 3, dataFilled.length);
+        //System.arraycopy(dataFilled, 0, packet, 3, dataFilled.length);
+        System.arraycopy(data, 0, packet, 3, dataLength);
 
         //Copy CheckSum
-        System.arraycopy(new byte[]{checkSum}, 0, packet, 63, 1);
+        System.arraycopy(new byte[]{checkSum}, 0, packet, dataLength + 3, 1);
 
         //Copy EndOfFrame
-        System.arraycopy(new byte[]{endFrame}, 0, packet, 64, 1);
+        System.arraycopy(new byte[]{endFrame}, 0, packet, dataLength + 4, 1);
 
         return packet;
     }
@@ -111,6 +111,9 @@ public class TelemetryPacket
 
     public static byte calculateCheckSum(byte[] data)
     {
+//        ByteBuffer bb = ByteBuffer.wrap(data);
+//        bb.order(ByteOrder.LITTLE_ENDIAN);
+
         byte checkSum = 0;
 
         for(byte i = 0; i < data.length; i++)

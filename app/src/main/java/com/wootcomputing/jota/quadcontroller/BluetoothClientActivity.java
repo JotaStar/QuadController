@@ -361,12 +361,15 @@ public class BluetoothClientActivity extends Activity
 
                     if (byteRecv == 13)
                     {
-                        if (buff[0] == 36 && buff.length == PACKET_SIZE) //Header = $ -> 36
+                        if (buff[0] == 36) //Header = $ -> 36
                         {
-                            TelemetryPacket newPacket = new TelemetryPacket(buff);
 
-                            if(TelemetryPacket.calculateCheckSum(newPacket.data) ==  newPacket.checkSum)
+                            byte dataFrame[] = Arrays.copyOfRange(buff, 3, buff[2] + 3);
+                            byte checkSum = TelemetryPacket.calculateCheckSum(dataFrame);
+
+                            if(buff[nextByte - 1] == checkSum)
                             {
+                                TelemetryPacket newPacket = new TelemetryPacket(buff);
                                 processMessage(newPacket);
                             }
                         }

@@ -135,7 +135,7 @@ public class MainActivity extends Activity
                                         sendMessageRX(_rcThroValue, _rcYawValue, _rcPitchValue, _rcRollValue);
                                         try
                                         {
-                                            Thread.sleep(50);
+                                            Thread.sleep(100);
                                         }
                                         catch (Exception ex)
                                         {
@@ -473,7 +473,7 @@ public class MainActivity extends Activity
         }, JoystickView.DEFAULT_LOOP_INTERVAL);
 
 
-        sendMessageRX((short)900,(short)1500,(short)1500,(short)1500);
+        //sendMessageRX((short)900,(short)1500,(short)1500,(short)1500);
 
     }
 

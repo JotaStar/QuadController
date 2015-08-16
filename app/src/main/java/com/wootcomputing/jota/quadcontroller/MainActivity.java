@@ -1,7 +1,6 @@
 package com.wootcomputing.jota.quadcontroller;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 
 
 public class MainActivity extends Activity
@@ -61,9 +59,17 @@ public class MainActivity extends Activity
 //    private Button _rcPitchButton;
 //    private Button _rcRollButton;
 
-    private TextView _pidYawTextView;
-    private TextView _pidPitchTextView;
-    private TextView _pidRollTextView;
+    private TextView _pidPYawTextView;
+    private TextView _pidPPitchTextView;
+    private TextView _pidPRollTextView;
+
+    private TextView _pidIYawTextView;
+    private TextView _pidIPitchTextView;
+    private TextView _pidIRollTextView;
+
+    private TextView _pidDYawTextView;
+    private TextView _pidDPitchTextView;
+    private TextView _pidDRollTextView;
 
     private CheckBox _joystickRightFixXCheckBox;
     private CheckBox _joystickRightFixYCheckBox;
@@ -71,16 +77,6 @@ public class MainActivity extends Activity
     private CheckBox _joystickLeftFixYCheckBox;
 
     private  CheckBox joystickLeftFixToCenterXCheckBox;
-
-
-    private Button _pidYawMoreButton;
-    private Button _pidYawLessButton;
-
-    private Button _pidPitchMoreButton;
-    private Button _pidPitchLessButton;
-
-    private Button _pidRollMoreButton;
-    private Button _pidRollLessButton;
 
 
     //RC YPR VALUES
@@ -135,7 +131,7 @@ public class MainActivity extends Activity
                                         sendMessageRX(_rcThroValue, _rcYawValue, _rcPitchValue, _rcRollValue);
                                         try
                                         {
-                                            Thread.sleep(100);
+                                            Thread.sleep(75);
                                         }
                                         catch (Exception ex)
                                         {
@@ -189,14 +185,17 @@ public class MainActivity extends Activity
                         _motorBLButton.setText(String.format("%d", telemetryStruct.channel.values[2]) + "\r\n" + String.format("%d", telemetryStruct.velocity.values[2]));
                         _motorBRButton.setText(String.format("%d", telemetryStruct.channel.values[3]) + "\r\n" + String.format("%d", telemetryStruct.velocity.values[3]));
 
-                        //                        _rcThroButton.setText(items[9]);
-                        //                        _rcYawButton.setText(items[10]);
-                        //                        _rcPitchButton.setText(items[11]);
-                        //                        _rcRollButton.setText(items[12]);
+                        _pidPYawTextView.setText(String.format("%.4f", telemetryStruct.constantP.ypr[0]));
+                        _pidPPitchTextView.setText(String.format("%.4f", telemetryStruct.constantP.ypr[1]));
+                        _pidPRollTextView.setText(String.format("%.4f", telemetryStruct.constantP.ypr[2]));
 
-                        _pidYawTextView.setText(String.format("%.4f", telemetryStruct.constantPID.ypr[0]));
-                        _pidPitchTextView.setText(String.format("%.4f", telemetryStruct.constantPID.ypr[1]));
-                        _pidRollTextView.setText(String.format("%.4f", telemetryStruct.constantPID.ypr[2]));
+                        _pidIYawTextView.setText(String.format("%.4f", telemetryStruct.constantI.ypr[0]));
+                        _pidIPitchTextView.setText(String.format("%.4f", telemetryStruct.constantI.ypr[1]));
+                        _pidIRollTextView.setText(String.format("%.4f", telemetryStruct.constantI.ypr[2]));
+
+                        _pidDYawTextView.setText(String.format("%.4f", telemetryStruct.constantD.ypr[0]));
+                        _pidDPitchTextView.setText(String.format("%.4f", telemetryStruct.constantD.ypr[1]));
+                        _pidDRollTextView.setText(String.format("%.4f", telemetryStruct.constantD.ypr[2]));
                     }
                     catch (Exception ex)
                     {
@@ -294,142 +293,41 @@ public class MainActivity extends Activity
         _motorBLButton = (Button) findViewById(R.id.motorBLButton);
         _motorBRButton = (Button) findViewById(R.id.motorBRButton);
 
-//        _rcThroButton = (Button) findViewById(R.id.rcThroButton);
-//        _rcYawButton = (Button) findViewById(R.id.rcYawButton);
-//        _rcPitchButton = (Button) findViewById(R.id.rcPitchButton);
-//        _rcRollButton = (Button) findViewById(R.id.rcRollButton);
 
-        _pidYawMoreButton = (Button) findViewById(R.id.pidYawMoreButton);
-        _pidYawLessButton = (Button) findViewById(R.id.pidYawLessButton);
-        _pidYawMoreButton.setLongClickable(true);
-        _pidYawLessButton.setLongClickable(true);
+        pidButtonAssigment(R.id.pidPYawMoreButton, 0, 1, 3);
+        pidButtonAssigment(R.id.pidPYawLessButton, 0, 0, 2);
+        pidButtonAssigment(R.id.pidPPitchMoreButton, 1, 1, 3);
+        pidButtonAssigment(R.id.pidPPitchLessButton, 1, 0, 2);
+        pidButtonAssigment(R.id.pidPRollMoreButton, 2, 1, 3);
+        pidButtonAssigment(R.id.pidPRollLessButton, 2, 0, 2);
 
-        _pidYawLessButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                sendMessageRX((byte) 0, (byte) 0);
-            }
-        });
+        pidButtonAssigment(R.id.pidIYawMoreButton, 3, 1, 3);
+        pidButtonAssigment(R.id.pidIYawLessButton, 3, 0, 2);
+        pidButtonAssigment(R.id.pidIPitchMoreButton, 4, 1, 3);
+        pidButtonAssigment(R.id.pidIPitchLessButton, 4, 0, 2);
+        pidButtonAssigment(R.id.pidIRollMoreButton, 5, 1, 3);
+        pidButtonAssigment(R.id.pidIRollLessButton, 5, 0, 2);
 
-        _pidYawMoreButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                sendMessageRX((byte) 0, (byte) 1);
-            }
-        });
+        pidButtonAssigment(R.id.pidDYawMoreButton, 6, 1, 3);
+        pidButtonAssigment(R.id.pidDYawLessButton, 6, 0, 2);
+        pidButtonAssigment(R.id.pidDPitchMoreButton, 7, 1, 3);
+        pidButtonAssigment(R.id.pidDPitchLessButton, 7, 0, 2);
+        pidButtonAssigment(R.id.pidDRollMoreButton, 8, 1, 3);
+        pidButtonAssigment(R.id.pidDRollLessButton, 8, 0, 2);
 
-        _pidYawLessButton.setOnLongClickListener(new View.OnLongClickListener()
-        {
-            @Override
-            public boolean onLongClick(View v)
-            {
-                sendMessageRX((byte) 0, (byte) 2);
-                return true;
-            }
-        });
 
-        _pidYawMoreButton.setOnLongClickListener(new View.OnLongClickListener()
-        {
-            @Override
-            public boolean onLongClick(View v)
-            {
-                sendMessageRX((byte) 0, (byte) 3);
-                return true;
-            }
-        });
+        _pidPYawTextView = (TextView) findViewById(R.id.pidPYawTextView);
+        _pidPPitchTextView = (TextView) findViewById(R.id.pidPPitchTextView);
+        _pidPRollTextView = (TextView) findViewById(R.id.pidPRollTextView);
 
-        _pidPitchMoreButton = (Button) findViewById(R.id.pidPitchMoreButton);
-        _pidPitchLessButton = (Button) findViewById(R.id.pidPitchLessButton);
-        _pidPitchMoreButton.setLongClickable(true);
-        _pidPitchLessButton.setLongClickable(true);
+        _pidIYawTextView = (TextView) findViewById(R.id.pidIYawTextView);
+        _pidIPitchTextView = (TextView) findViewById(R.id.pidIPitchTextView);
+        _pidIRollTextView = (TextView) findViewById(R.id.pidIRollTextView);
 
-        _pidPitchLessButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                sendMessageRX((byte) 1, (byte) 0);
-            }
-        });
+        _pidDYawTextView = (TextView) findViewById(R.id.pidDYawTextView);
+        _pidDPitchTextView = (TextView) findViewById(R.id.pidDPitchTextView);
+        _pidDRollTextView = (TextView) findViewById(R.id.pidDRollTextView);
 
-        _pidPitchMoreButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                sendMessageRX((byte) 1, (byte) 1);
-            }
-        });
-
-        _pidPitchLessButton.setOnLongClickListener(new View.OnLongClickListener()
-        {
-            @Override
-            public boolean onLongClick(View v)
-            {
-                sendMessageRX((byte) 1, (byte) 2);
-                return true;
-            }
-        });
-
-        _pidPitchMoreButton.setOnLongClickListener(new View.OnLongClickListener()
-        {
-            @Override
-            public boolean onLongClick(View v)
-            {
-                sendMessageRX((byte) 1, (byte) 3);
-                return true;
-            }
-        });
-
-        _pidRollMoreButton = (Button) findViewById(R.id.pidRollMoreButton);
-        _pidRollLessButton = (Button) findViewById(R.id.pidRollLessButton);
-        _pidRollMoreButton.setLongClickable(true);
-        _pidRollLessButton.setLongClickable(true);
-
-        _pidRollLessButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                sendMessageRX((byte) 2, (byte) 0);
-            }
-        });
-
-        _pidRollMoreButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                sendMessageRX((byte) 2, (byte) 1);
-            }
-        });
-
-        _pidRollLessButton.setOnLongClickListener(new View.OnLongClickListener()
-        {
-            @Override
-            public boolean onLongClick(View v)
-            {
-                sendMessageRX((byte) 2, (byte) 2);
-                return true;
-            }
-        });
-        _pidRollMoreButton.setOnLongClickListener(new View.OnLongClickListener()
-        {
-            @Override
-            public boolean onLongClick(View v)
-            {
-                sendMessageRX((byte) 2, (byte) 3);
-                return true;
-            }
-        });
-
-        _pidYawTextView = (TextView) findViewById(R.id.pidYawTextView);
-        _pidPitchTextView = (TextView) findViewById(R.id.pidPitchTextView);
-        _pidRollTextView = (TextView) findViewById(R.id.pidRollTextView);
 
         _joystickLeft = (JoystickView) findViewById(R.id.joystickLeft);
         _joystickLeft.setReturnToCenterX(false, true);
@@ -475,6 +373,31 @@ public class MainActivity extends Activity
 
         //sendMessageRX((short)900,(short)1500,(short)1500,(short)1500);
 
+    }
+
+    public void pidButtonAssigment(int resourceId, final int ypr, final int value, final int moreOrLess)
+    {
+        Button button = (Button) findViewById(resourceId);
+        button.setLongClickable(true);
+
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                sendMessageRX((byte) ypr, (byte) value);
+            }
+        });
+
+        button.setOnLongClickListener(new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View v)
+            {
+                sendMessageRX((byte) ypr, (byte) moreOrLess);
+                return true;
+            }
+        });
     }
 
     @Override

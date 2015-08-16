@@ -9,8 +9,8 @@ import java.util.Arrays;
  */
 public class TelemetryPacket
 {
-    private static final int PACKET_DATA_SIZE = 60;
-    private static final int PACKET_SIZE = 65;
+    private static final int PACKET_DATA_SIZE = 80;
+    private static final int PACKET_SIZE = 85;
     private TelemetryStruct _telemetryStruct;
 
     public byte header;
@@ -64,12 +64,6 @@ public class TelemetryPacket
         this.data = data;
         this.dataLength = (byte) data.length;
 
-//        //Es BigEndian, en Arduino cambio los Bytes (2 = 3, 3 = 2)
-//        byte[] dataFilled = new byte[PACKET_DATA_SIZE];
-//        dataLength = (byte) data.length;
-//        System.arraycopy(data, 0, dataFilled, 0, dataLength);
-//        this.checkSum = TelemetryPacket.calculateCheckSum(dataFilled);
-
         this.checkSum = TelemetryPacket.calculateCheckSum(data);
         this.endFrame = 13;
     }
@@ -78,9 +72,6 @@ public class TelemetryPacket
     {
 
         byte[] packet = new byte[dataLength + 5];
-
-//        byte[] dataFilled = new byte[PACKET_DATA_SIZE];
-//        System.arraycopy(data, 0, dataFilled, 0, dataLength);
 
         //Copy Header
         System.arraycopy(new byte[]{header}, 0, packet, 0, 1);
@@ -92,7 +83,6 @@ public class TelemetryPacket
         System.arraycopy(new byte[]{dataLength}, 0, packet, 2, 1);
 
         //Copy Data
-        //System.arraycopy(dataFilled, 0, packet, 3, dataFilled.length);
         System.arraycopy(data, 0, packet, 3, dataLength);
 
         //Copy CheckSum
@@ -111,9 +101,6 @@ public class TelemetryPacket
 
     public static byte calculateCheckSum(byte[] data)
     {
-//        ByteBuffer bb = ByteBuffer.wrap(data);
-//        bb.order(ByteOrder.LITTLE_ENDIAN);
-
         byte checkSum = 0;
 
         for(byte i = 0; i < data.length; i++)

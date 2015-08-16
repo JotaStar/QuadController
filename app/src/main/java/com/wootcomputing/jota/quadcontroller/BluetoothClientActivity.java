@@ -25,7 +25,7 @@ public class BluetoothClientActivity extends Activity
     // Unique UUID for this application
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
-    private static final int PACKET_SIZE = 65;
+    private static final int PACKET_SIZE = 85;
 
     //Protocol
     private static byte nextByte = 0;

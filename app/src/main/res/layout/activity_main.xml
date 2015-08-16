@@ -130,112 +130,250 @@
 
         </LinearLayout>
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/rcLinearLayout"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:layout_below="@+id/motorLinearLayout">-->
-
-            <!--<Button-->
-                <!--android:id="@+id/rcThroButton"-->
-                <!--android:layout_width="55dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="12dp" />-->
-
-            <!--<Button-->
-                <!--android:id="@+id/rcYawButton"-->
-                <!--android:layout_width="55dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="12dp" />-->
-
-            <!--<Button-->
-                <!--android:id="@+id/rcPitchButton"-->
-                <!--android:layout_width="55dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="12dp"/>-->
-
-            <!--<Button-->
-                <!--android:id="@+id/rcRollButton"-->
-                <!--android:layout_width="55dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="12dp" />-->
-
-        <!--</LinearLayout>-->
-
         <LinearLayout
-            android:id="@+id/pidLinearLayout"
+            android:id="@+id/pidPTextViewLinearLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:layout_below="@id/motorLinearLayout">
 
             <TextView
-                android:id="@+id/pidYawTextView"
+                android:id="@+id/pidPYawTextView"
                 android:layout_width="60dp"
-                android:layout_height="30dp"
+                android:layout_height="20dp"
                 android:gravity="center_horizontal"
                 android:text="0.01"/>
 
             <TextView
-                android:id="@+id/pidPitchTextView"
+                android:id="@+id/pidPPitchTextView"
                 android:layout_width="60dp"
-                android:layout_height="30dp"
+                android:layout_height="20dp"
                 android:gravity="center_horizontal"
                 android:text="0.01"/>
 
             <TextView
-                android:id="@+id/pidRollTextView"
+                android:id="@+id/pidPRollTextView"
                 android:layout_width="60dp"
-                android:layout_height="30dp"
+                android:layout_height="20dp"
                 android:gravity="center_horizontal"
                 android:text="0.01"/>
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/pidITextViewLinearLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:layout_below="@id/pidLinearLayout"
+            android:layout_below="@id/pidPTextViewLinearLayout">
+
+            <TextView
+                android:id="@+id/pidIYawTextView"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:gravity="center_horizontal"
+                android:text="0.01"/>
+
+            <TextView
+                android:id="@+id/pidIPitchTextView"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:gravity="center_horizontal"
+                android:text="0.01"/>
+
+            <TextView
+                android:id="@+id/pidIRollTextView"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:gravity="center_horizontal"
+                android:text="0.01"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pidDTextViewLinearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/pidITextViewLinearLayout">
+
+            <TextView
+                android:id="@+id/pidDYawTextView"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:gravity="center_horizontal"
+                android:text="0.01"/>
+
+            <TextView
+                android:id="@+id/pidDPitchTextView"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:gravity="center_horizontal"
+                android:text="0.01"/>
+
+            <TextView
+                android:id="@+id/pidDRollTextView"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:gravity="center_horizontal"
+                android:text="0.01"/>
+
+        </LinearLayout>
+
+        <!-- PID D BUTTON -->
+        <LinearLayout
+            android:id="@+id/pidPLinearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/pidDTextViewLinearLayout"
             android:layout_alignEnd="@+id/joystickRight">
 
             <Button
-                android:id="@+id/pidYawMoreButton"
+                android:id="@+id/pidPYawMoreButton"
                 android:layout_width="30dp"
-                android:layout_height="35dp"
-                android:text="+"/>
+                android:layout_height="30dp"
+                android:text="+"
+                android:textSize="8dp"/>
 
             <Button
-                android:id="@+id/pidYawLessButton"
+                android:id="@+id/pidPYawLessButton"
                 android:layout_width="30dp"
-                android:layout_height="35dp"
-                android:text="-"/>
+                android:layout_height="30dp"
+                android:text="-"
+                android:textSize="8dp"/>
 
             <Button
-                android:id="@+id/pidPitchMoreButton"
+                android:id="@+id/pidPPitchMoreButton"
                 android:layout_width="30dp"
-                android:layout_height="35dp"
-                android:text="+"/>
+                android:layout_height="30dp"
+                android:text="+"
+                android:textSize="8dp"/>
 
             <Button
-                android:id="@+id/pidPitchLessButton"
+                android:id="@+id/pidPPitchLessButton"
                 android:layout_width="30dp"
-                android:layout_height="35dp"
-                android:text="-"/>
+                android:layout_height="30dp"
+                android:text="-"
+                android:textSize="8dp"/>
 
             <Button
-                android:id="@+id/pidRollMoreButton"
+                android:id="@+id/pidPRollMoreButton"
                 android:layout_width="30dp"
-                android:layout_height="35dp"
-                android:text="+"/>
+                android:layout_height="30dp"
+                android:text="+"
+                android:textSize="8dp"/>
 
             <Button
-                android:id="@+id/pidRollLessButton"
+                android:id="@+id/pidPRollLessButton"
                 android:layout_width="30dp"
-                android:layout_height="35dp"
-                android:text="-"/>
+                android:layout_height="30dp"
+                android:text="-"
+                android:textSize="8dp"/>
 
+        </LinearLayout>
+        <!-- PID I BUTTON -->
+        <LinearLayout
+            android:id="@+id/pidILinearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/pidPLinearLayout"
+            android:layout_alignEnd="@+id/joystickRight">
+
+            <Button
+                android:id="@+id/pidIYawMoreButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="+"
+                android:textSize="8dp"/>
+
+            <Button
+                android:id="@+id/pidIYawLessButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="-"
+                android:textSize="8dp"/>
+
+            <Button
+                android:id="@+id/pidIPitchMoreButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="+"
+                android:textSize="8dp"/>
+
+            <Button
+                android:id="@+id/pidIPitchLessButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="-"
+                android:textSize="8dp"/>
+
+            <Button
+                android:id="@+id/pidIRollMoreButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="+"
+                android:textSize="8dp"/>
+
+            <Button
+                android:id="@+id/pidIRollLessButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="-"
+                android:textSize="8dp"/>
+
+        </LinearLayout>
+        <!-- PID D BUTTON -->
+        <LinearLayout
+            android:id="@+id/pidDLinearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/pidILinearLayout"
+            android:layout_alignEnd="@+id/joystickRight">
+
+            <Button
+                android:id="@+id/pidDYawMoreButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="+"
+                android:textSize="8dp"/>
+
+            <Button
+                android:id="@+id/pidDYawLessButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="-"
+                android:textSize="8dp"/>
+
+            <Button
+                android:id="@+id/pidDPitchMoreButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="+"
+                android:textSize="8dp"/>
+
+            <Button
+                android:id="@+id/pidDPitchLessButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="-"
+                android:textSize="8dp"/>
+
+            <Button
+                android:id="@+id/pidDRollMoreButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="+"
+                android:textSize="8dp"/>
+
+            <Button
+                android:id="@+id/pidDRollLessButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="-"
+                android:textSize="8dp"/>
 
         </LinearLayout>
 

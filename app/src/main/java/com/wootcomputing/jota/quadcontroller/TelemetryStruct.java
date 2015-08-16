@@ -13,7 +13,9 @@ public class TelemetryStruct
     public MotorTelemetry channel;
     public MotorTelemetry velocity;
     public YprTelemetry ypr;
-    public YprTelemetry constantPID;
+    public YprTelemetry constantP;
+    public YprTelemetry constantI;
+    public YprTelemetry constantD;
     public YprTelemetry computedPID;
 
     public TelemetryStruct(byte[] bytes)
@@ -35,12 +37,22 @@ public class TelemetryStruct
 
         if (bytes.length >= 40)
         {
-            constantPID = new YprTelemetry(Arrays.copyOfRange(bytes, 28, 40));
+            constantP = new YprTelemetry(Arrays.copyOfRange(bytes, 28, 40));
         }
 
         if (bytes.length >= 52)
         {
-            computedPID = new YprTelemetry(Arrays.copyOfRange(bytes, 40, 52));
+            constantI = new YprTelemetry(Arrays.copyOfRange(bytes, 40, 52));
+        }
+
+        if (bytes.length >= 64)
+        {
+            constantD = new YprTelemetry(Arrays.copyOfRange(bytes, 52, 64));
+        }
+
+        if (bytes.length >= 76)
+        {
+            computedPID = new YprTelemetry(Arrays.copyOfRange(bytes, 64, 76));
         }
     }
 
@@ -102,11 +114,11 @@ public class TelemetryStruct
             System.arraycopy(byteUtil.floatToBytes(ypr.ypr[2]), 0, bytes, 24, 4);
         }
 
-        if (constantPID != null)
+        if (constantP != null)
         {
-            System.arraycopy(byteUtil.floatToBytes(constantPID.ypr[0]), 0, bytes, 28, 4);
-            System.arraycopy(byteUtil.floatToBytes(constantPID.ypr[1]), 0, bytes, 32, 4);
-            System.arraycopy(byteUtil.floatToBytes(constantPID.ypr[2]), 0, bytes, 36, 4);
+            System.arraycopy(byteUtil.floatToBytes(constantP.ypr[0]), 0, bytes, 28, 4);
+            System.arraycopy(byteUtil.floatToBytes(constantP.ypr[1]), 0, bytes, 32, 4);
+            System.arraycopy(byteUtil.floatToBytes(constantP.ypr[2]), 0, bytes, 36, 4);
         }
 
         if (computedPID != null)
